@@ -1,7 +1,6 @@
 package konradczajka.springboot.tests.domain
 
-import konradczajka.springboot.tests.domain.TaxCalculator
-import konradczajka.springboot.tests.domain.TaxRateProvider
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
