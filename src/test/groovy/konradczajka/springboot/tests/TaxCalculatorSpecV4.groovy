@@ -1,15 +1,17 @@
 package konradczajka.springboot.tests
 
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
+import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
-@SpringBootTest
-@Import(TestConfig)
-class TaxCalculatorSpecV2 extends Specification {
+@ContextConfiguration
+class TaxCalculatorSpecV4 extends Specification {
 
     @Autowired
     TaxCalculator calculator
@@ -20,13 +22,15 @@ class TaxCalculatorSpecV2 extends Specification {
             calculator.calculateTaxValue(productOrService, price) == expectedAmount
         where:
             productOrService | price                   || expectedAmount
-            "Marchewka"      | new BigDecimal("2.12")  || new BigDecimal("0.17")
-            "Strzyżenie"     | new BigDecimal("45.00") || new BigDecimal("2.25")
-            "Długopis"       | new BigDecimal("8.60")  || new BigDecimal("1.98")
+            "Marchewka"      | new BigDecimal("2.12")  || new BigDecimal("0.21")
+            "Strzyżenie"     | new BigDecimal("45.00") || new BigDecimal("4.50")
+            "Długopis"       | new BigDecimal("8.60")  || new BigDecimal("0.86")
     }
 
     @TestConfiguration
+    @Import(TaxCalculator)
     static class TestConfig {
+
         @Bean
         TaxRateProvider testTaxRateProvider() {
             new TaxRateProvider() {
