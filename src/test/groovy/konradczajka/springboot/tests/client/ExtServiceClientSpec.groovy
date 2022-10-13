@@ -4,19 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest
 import org.springframework.context.annotation.Import
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
 import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.MediaType.APPLICATION_JSON
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.header
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
 @RestClientTest(ExtServiceClient)
