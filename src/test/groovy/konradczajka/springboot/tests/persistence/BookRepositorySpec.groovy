@@ -24,7 +24,6 @@ class BookRepositorySpec extends Specification {
         when:
             def result = repository.findBooksByAuthorAndPagesGreaterThanAndActiveTrueOrderByTitle("Adam", 90)
         then:
-            result.collect { it.isbn }
-                    .equals(["4", "1"])
+            result.collect { it.isbn } == ["4", "1"]
     }
 }
