@@ -4,12 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest
 import org.springframework.context.annotation.Import
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
+import static org.springframework.http.HttpMethod.POST
+import static org.springframework.http.MediaType.APPLICATION_JSON
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
@@ -32,13 +38,16 @@ class ExtServiceClientSpec extends Specification {
 
     def "makes correct request for data"() {
         given:
-            server.expect(requestTo("http://ext.service/data?amount=4"))
+            server.expect(requestTo("http://ext.service/data"))
+                    .andExpect(method(POST))
+                    .andExpect(header("Content-Type", "application/json"))
                     .andExpect(header("X-Custom-Secret", "xyz"))
-                    .andRespond(withSuccess("Data" * 40, MediaType.TEXT_PLAIN))
+                    .andExpect(jsonPath('$.amount').value("4"))
+                    .andRespond(withSuccess('{"result":"DDDD"}', APPLICATION_JSON))
         when:
             def result = client.fetchData(4)
         then:
-            result == "Data" * 40
+            result == "DDDD"
             server.verify()
     }
 }
