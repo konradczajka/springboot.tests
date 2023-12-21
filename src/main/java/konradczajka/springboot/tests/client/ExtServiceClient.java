@@ -1,10 +1,6 @@
 package konradczajka.springboot.tests.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.Data;
-import lombok.Value;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,19 +22,18 @@ public class ExtServiceClient {
         headers.add("X-Custom-Secret", "xyz");
         headers.add("Content-Type", "application/json");
 
-        return restTemplate.exchange("http://ext.service/data", POST,
-                new HttpEntity<>(new ExtRequest(amount), headers), ExtResponse.class, amount)
-            .getBody().getData();
+        var response = restTemplate.exchange("http://ext.service/data", POST,
+                        new HttpEntity<>(new ExtRequest(amount), headers), ExtResponse.class, amount
+                ).getBody();
+
+        return response.data();
     }
 
-    @Value
-    private static class ExtRequest {
-        private int amount;
+    private record ExtRequest(int amount) {
+
     }
 
-    @Data
-    private static class ExtResponse {
-        @JsonProperty("result")
-        private String data;
+    private record ExtResponse(@JsonProperty("result") String data) {
+
     }
 }

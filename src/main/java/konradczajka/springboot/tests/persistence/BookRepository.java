@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, String> {
 
-    List<Book> findBooksByAuthorAndPagesGreaterThanAndActiveTrueOrderByTitle(String author,
-                                                                             int minPages);
+    List<Book> findBooksByAuthorAndPagesGreaterThanAndActiveTrueOrderByTitle(String author, int minPages);
+    List<Book> findAllByActiveIsTrue();
 
     @Modifying
     @Query("update Book b set b.active = ?2 where b.genre = ?1")
